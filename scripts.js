@@ -61,7 +61,12 @@ function create () {
 
         let dateandtime = new Date(hour.value)
         let tasktext = text.value
-        item.innerHTML = `<input class='form-check-input' type='checkbox' onclick='deleteTask()' pos='${Task.list.length}'> ${tasktext} | ${dateandtime.getHours()}:${dateandtime.getMinutes()} | ${dateandtime.getDate()}/${dateandtime.getMonth() + 1}/${dateandtime.getFullYear()}`
+        item.innerHTML = `<div class='row'>
+                            <div style="width: max-content; margin: 0;"><input class='form-check-input' type='checkbox' onclick='deleteTask()' pos='${Task.list.length}' style="margin-right: 0;"></div>
+                            <div class="col-8" style="text-align: left;">${tasktext}</div>
+                            <div class="col-1">${("0" + dateandtime.getHours()).slice(-2)}:${("0" + dateandtime.getMinutes()).slice(-2)}</div>
+                            <div class="col-1"> ${("0" + dateandtime.getDate()).slice(-2)}/${("0" + (dateandtime.getMonth() + 1)).slice(-2)}/${("000" + dateandtime.getFullYear()).slice(-4)}</div>
+                        </div>`
         
         //Cleaning for the next task
         text.value = ""

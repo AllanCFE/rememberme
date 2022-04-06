@@ -10,14 +10,16 @@ class Task {
 //Class var to hold all tasks
 Task.list = []
 
+var frequency_r = Number(document.querySelector('select#frequency_m').value) * Number(document.querySelector('input#frequency_a').value)
+var volume = document.querySelector(`input#volume`).value
+
 //Check if there is a need to play the buzzer
-const interval = setInterval(function() {
+function periodicCall(){
     for (let index in Task.list){
         let nowT = new Date()
         let thisTask = Task.list[index]
         if(thisTask.datetime < nowT){
             let audio = new Audio('beep.mp3')
-            let volume = document.querySelector(`input#volume`).value
             audio.volume = volume/100
             console.log(`Volume: ${volume}%`)
             audio.play()
@@ -26,8 +28,15 @@ const interval = setInterval(function() {
             console.log(divitem)
         }   
     }
-}, 60000);
+    setTimeout(periodicCall, frequency_r)
+}
+periodicCall()
 
+function setSettings() {
+    frequency_r = Number(document.querySelector('select#frequency_m').value) * Number(document.querySelector('input#frequency_a').value)
+    volume = document.querySelector(`input#volume`).value
+    periodicCall()
+}
 
 function create () {
     let text = document.getElementById('ttask')

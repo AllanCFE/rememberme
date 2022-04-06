@@ -38,6 +38,15 @@ function setSettings() {
     periodicCall()
 }
 
+function resetSettings() {
+    frequency_r = 60000
+    volume = 1
+    document.querySelector('select#frequency_m').value = 1000
+    document.querySelector('input#frequency_a').value = 60
+    document.querySelector(`input#volume`).value = 100
+    periodicCall()
+}
+
 function create () {
     let text = document.getElementById('ttask')
     let hour = document.getElementById('ttime')

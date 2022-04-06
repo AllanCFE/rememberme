@@ -15,18 +15,20 @@ var volume = document.querySelector(`input#volume`).value
 
 //Check if there is a need to play the buzzer
 function periodicCall(){
+    let howMany = 0
     for (let index in Task.list){
         let nowT = new Date()
         let thisTask = Task.list[index]
         if(thisTask.datetime < nowT){
-            let audio = new Audio('beep.mp3')
-            audio.volume = volume/100
-            console.log(`Volume: ${volume}%`)
-            audio.play()
+            howMany++
             let divitem = document.querySelector(`div[key='${index}']`)
             divitem.style.backgroundColor = '#ffb8b5'
-            console.log(divitem)
         }   
+    }
+    if (howMany > 0){
+        let audio = new Audio('beep.mp3')
+        audio.volume = volume/100
+        audio.play()
     }
     setTimeout(periodicCall, frequency_r)
 }

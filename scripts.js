@@ -16,8 +16,11 @@ const interval = setInterval(function() {
         let nowT = new Date()
         let thisTask = Task.list[index]
         if(thisTask.datetime < nowT){
-            var audio = new Audio('beep.mp3')
+            let audio = new Audio('beep.mp3')
             audio.play()
+            let divitem = document.querySelector(`div[key='${index}']`)
+            divitem.style.backgroundColor = '#ffb8b5'
+            console.log(divitem)
         }   
     }
 }, 60000);

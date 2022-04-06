@@ -17,6 +17,9 @@ const interval = setInterval(function() {
         let thisTask = Task.list[index]
         if(thisTask.datetime < nowT){
             let audio = new Audio('beep.mp3')
+            let volume = document.querySelector(`input#volume`).value
+            audio.volume = volume/100
+            console.log(`Volume: ${volume}%`)
             audio.play()
             let divitem = document.querySelector(`div[key='${index}']`)
             divitem.style.backgroundColor = '#ffb8b5'

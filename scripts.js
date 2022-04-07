@@ -65,9 +65,9 @@ function create () {
         let tasktext = text.value
         item.innerHTML = `<div class='row'>
                             <div style="width: max-content; margin: 0;"><input class='form-check-input' type='checkbox' onclick='deleteTask()' pos='${Task.list.length}' style="margin-right: 0;"></div>
-                            <div class="col-8" style="text-align: left;">${tasktext}</div>
-                            <div class="col-1">${("0" + dateandtime.getHours()).slice(-2)}:${("0" + dateandtime.getMinutes()).slice(-2)}</div>
-                            <div class="col-1"> ${("0" + dateandtime.getDate()).slice(-2)}/${("0" + (dateandtime.getMonth() + 1)).slice(-2)}/${("000" + dateandtime.getFullYear()).slice(-4)}</div>
+                            <div class="col-8 edit tasktext" style="text-align: left;" onclick="setChanger(${Task.list.length})" data-bs-toggle="modal" data-bs-target="#changer">${tasktext}</div>
+                            <div class="col-1 edit taskhour" onclick="setChanger(${Task.list.length})" data-bs-toggle="modal" data-bs-target="#changer">${("0" + dateandtime.getHours()).slice(-2)}:${("0" + dateandtime.getMinutes()).slice(-2)}</div>
+                            <div class="col-1 edit taskdate" onclick="setChanger(${Task.list.length})" data-bs-toggle="modal" data-bs-target="#changer"> ${("0" + dateandtime.getDate()).slice(-2)}/${("0" + (dateandtime.getMonth() + 1)).slice(-2)}/${("000" + dateandtime.getFullYear()).slice(-4)}</div>
                         </div>`
         
         //Cleaning for the next task
@@ -103,4 +103,25 @@ function deleteTask() {
             }
         }
     } else document.querySelector(`input[type='checkbox']:checked`).checked = false
+}
+
+function setChanger(id) {
+    document.getElementById('changer').setAttribute('pos',id)
+    document.getElementById('ctask').value = Task.list[id].text
+    Task.list[id].datetime.setMinutes(Task.list[id].datetime.getMinutes() - Task.list[id].datetime.getTimezoneOffset())
+    document.getElementById('ctime').value = Task.list[id].datetime.toISOString().slice(0,16)
+    Task.list[id].datetime.setMinutes(Task.list[id].datetime.getMinutes() + Task.list[id].datetime.getTimezoneOffset())
+}
+
+function changeTask() {
+    let id = document.getElementById('changer').getAttribute('pos')
+    let text = document.getElementById('ctask').value
+    let hour = new Date(document.getElementById('ctime').value)
+    
+    Task.list[id] = new Task(text, hour, id)
+    console.log(Task.list[id])
+
+    document.querySelector(`div[key='${id}'] div.row .tasktext`).innerHTML = text
+    document.querySelector(`div[key='${id}'] div.row .taskhour`).innerHTML = `${("0" + hour.getHours()).slice(-2)}:${("0" + hour.getMinutes()).slice(-2)}`
+    document.querySelector(`div[key='${id}'] div.row .taskdate`).innerHTML = `${("0" + hour.getDate()).slice(-2)}/${("0" + (hour.getMonth() + 1)).slice(-2)}/${("000" + hour.getFullYear()).slice(-4)}`
 }

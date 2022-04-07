@@ -28,3 +28,7 @@ h1 {
 .element input {
     margin-right: 10px;
 }
+
+.edit:hover {
+    cursor: pointer;
+}

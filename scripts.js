@@ -88,20 +88,23 @@ function create () {
 
 function deleteTask() {
     //Checkbox
-    let pos = document.querySelector(`input[type='checkbox']:checked`).getAttribute('pos')
+    let id = document.querySelector(`input[type='checkbox']:checked`).getAttribute('pos')
+    let pos = -1
+    for (let index in Task.list){
+        if(Task.list[index].id == id){
+            pos = index
+            index = Task.list.length
+        }
+    }
     //Div of the task in user interface
-    let tInterface = document.querySelector(`div.element[key='${pos}']`)
+    let tInterface = document.querySelector(`div.element[key='${id}']`)
     //Confirm if the user wants to delete the task
     let res = confirm(`Do you want to finish the task ${Task.list[pos].text}?`)
 
     if(res){
         tInterface.parentElement.removeChild(tInterface)
-        for (let index in Task.list){
-            if(Task.list[index].id = pos){
-                Task.list.splice(pos,1)
-                return
-            }
-        }
+        Task.list.splice(pos,1)
+        return
     } else document.querySelector(`input[type='checkbox']:checked`).checked = false
 }
 
@@ -119,7 +122,6 @@ function changeTask() {
     let hour = new Date(document.getElementById('ctime').value)
     
     Task.list[id] = new Task(text, hour, id)
-    console.log(Task.list[id])
 
     document.querySelector(`div[key='${id}'] div.row .tasktext`).innerHTML = text
     document.querySelector(`div[key='${id}'] div.row .taskhour`).innerHTML = `${("0" + hour.getHours()).slice(-2)}:${("0" + hour.getMinutes()).slice(-2)}`

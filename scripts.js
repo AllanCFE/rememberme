@@ -114,6 +114,9 @@ function setChanger(id) {
     Task.list[id].datetime.setMinutes(Task.list[id].datetime.getMinutes() - Task.list[id].datetime.getTimezoneOffset())
     document.getElementById('ctime').value = Task.list[id].datetime.toISOString().slice(0,16)
     Task.list[id].datetime.setMinutes(Task.list[id].datetime.getMinutes() + Task.list[id].datetime.getTimezoneOffset())
+    if (document.querySelector(`[role='alert']`)){
+        document.querySelector(`[role='alert']`).parentElement.removeChild(document.querySelector(`[role='alert']`))
+    }
 }
 
 function changeTask() {
@@ -126,4 +129,10 @@ function changeTask() {
     document.querySelector(`div[key='${id}'] div.row .tasktext`).innerHTML = text
     document.querySelector(`div[key='${id}'] div.row .taskhour`).innerHTML = `${("0" + hour.getHours()).slice(-2)}:${("0" + hour.getMinutes()).slice(-2)}`
     document.querySelector(`div[key='${id}'] div.row .taskdate`).innerHTML = `${("0" + hour.getDate()).slice(-2)}/${("0" + (hour.getMonth() + 1)).slice(-2)}/${("000" + hour.getFullYear()).slice(-4)}`
+
+    let res = document.createElement('div')
+    res.setAttribute('class','alert alert-success alert-dismissible')
+    res.setAttribute('role','alert')
+    res.innerHTML = 'Task saved! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
+    document.querySelector('.modal-body').appendChild(res)
 }
